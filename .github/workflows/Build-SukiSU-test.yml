@@ -185,7 +185,6 @@ jobs:
         run: |
           cd kernel_workspace
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
-          cd susfs4ksu
           git fetch origin de64f31024bbbf4aaad64be3fc6d0cd0417edf60
           git checkout de64f31024bbbf4aaad64be3fc6d0cd0417edf60
           git clone https://github.com/ShirkNeko/SukiSU_patch.git

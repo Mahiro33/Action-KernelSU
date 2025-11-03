@@ -175,8 +175,6 @@ jobs:
         run: |
           cd kernel_workspace/kernel_platform
           curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
-          git fetch origin susfs-main
-          git checkout 97e1250d11c2e34ccea25b20d6e56321aa45eff4
           cd ./KernelSU
           KSU_VERSION=$(expr $(git rev-list --count main 2>/dev/null || echo 13000) + 10700)
           echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
@@ -187,7 +185,7 @@ jobs:
         run: |
           cd kernel_workspace
           #git clone https://gitlab.com/jiujiujiu130/susfs4ksu.git -b test-gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
-          git clone https://gitlab.com/jiujiujiu130/susfs4ksu.git -b test-gki
+          git clone https://gitlab.com/jiujiujiu130/susfs4ksu.git -b de64f310
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
           cd kernel_platform
           echo "正在给内核打susfs补丁"

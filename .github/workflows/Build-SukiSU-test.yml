@@ -2,7 +2,7 @@ name: Build OnePlus_SukiSU test Ultra All
 on:
   workflow_dispatch:
     inputs:
-      FEIL:
+      FILE:
         type: choice
         description: "配置文件"
         required: true
@@ -181,7 +181,7 @@ jobs:
       - name: Show selected inputs debug
         run: |
           echo "Selected CPU: ${{ github.event.inputs.CPU }}"
-          echo "Selected FEIL: ${{ github.event.inputs.FEIL }}"
+          echo "Selected FILE: ${{ github.event.inputs.FILE }}"
           echo "Selected CPUD: ${{ github.event.inputs.CPUD }}"
           echo "Selected ANDROID_VERSION: ${{ github.event.inputs.ANDROID_VERSION }}"
           echo "Selected KERNEL_VERSION: ${{ github.event.inputs.KERNEL_VERSION }}"
@@ -476,10 +476,10 @@ jobs:
         run: |
           echo "value=${{ github.event.inputs.VFS == 'true' && '_VFS' || '' }}" >> $GITHUB_OUTPUT
 
-      - name: Remove _uv suffix from FEIL
+      - name: Remove _uv suffix from FILE
         id: feil_clean
         run: |
-          clean_feil="${{ github.event.inputs.FEIL }}"
+          clean_feil="${{ github.event.inputs.FILE }}"
           clean_feil="${clean_feil%_v}"  # 去掉结尾的 _v（如果有）
           clean_feil="${clean_feil%_u}"  # 去掉结尾的 _u（如果有）
           echo "value=$clean_feil" >> $GITHUB_OUTPUT

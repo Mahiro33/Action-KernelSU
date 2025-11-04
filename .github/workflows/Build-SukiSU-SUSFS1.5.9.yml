@@ -334,13 +334,13 @@ jobs:
       - name: Add KernelSU-SukiSU Ultra
         run: |
           cd kernel_workspace/kernel_platform
+          KSU_VERSION=13375
           curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
           cd ./KernelSU
           git fetch origin susfs-main
           git checkout 97e1250d11c2e34ccea25b20d6e56321aa45eff4
-          sed -i 's/DKSU_VERSION=$(KSU_VERSION)/DKSU_VERSION=13375/' kernel/Makefile
-          #sed -i '/^KSU_VERSION :=/d; /ifeq (.*KSU_GITHUB_VERSION_COMMIT.*)/a\\nKSU_VERSION := 13375\n$(info -- $(REPO_NAME) version (fixed): $(KSU_VERSION))' kernel/Makefile
-          #sed -i 's/KSU_VERSION := [0-9]*/KSU_VERSION := 13375/g' kernel/Makefile
+          sed -i "s/DKSU_VERSION=\$(KSU_VERSION)/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
+          echo KSUVER=$KSU_VERSION >> $GITHUB_ENV
           #KSU_VERSION=$(expr $(git rev-list --count main 2>/dev/null || echo 13000) + 10700)
           #echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
           #export KSU_VERSION=$KSU_VERSION

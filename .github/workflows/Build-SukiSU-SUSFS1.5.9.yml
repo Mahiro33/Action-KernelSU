@@ -295,8 +295,9 @@ jobs:
           cd ./KernelSU
           git fetch origin susfs-main
           git checkout 97e1250d11c2e34ccea25b20d6e56321aa45eff4
-          KSU_VERSION=$(expr $(git rev-list --count main 2>/dev/null || echo 13000) + 10700)
-          echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
+          sed -i 's/KSU_VERSION := [0-9]*/KSU_VERSION := 13375/g' kernel/Makefile
+          #KSU_VERSION=$(expr $(git rev-list --count main 2>/dev/null || echo 13000) + 10700)
+          #echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
           #export KSU_VERSION=$KSU_VERSION
           #sed -i "s/DKSU_VERSION=12800/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
 

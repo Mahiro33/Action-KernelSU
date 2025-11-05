@@ -569,8 +569,9 @@ jobs:
 
       - name: Download Matching Version of SukiSu-Ultra Apk
         run: |
-          curl -L --progress-bar -o SukiSU_3.2.0_13375.apk "https://raw.githubusercontent.com/Mahiro33/Action-KernelSU/main/apks/SukiSU_v3.2.0_13375.apk"
-          cp SukiSU_3.2.0_13375.apk ./AnyKernel3/
+          APK_NAME=SukiSU_v3.2.0_13457-release.apk
+          curl -L --progress-bar -o ${APK_NAME} "https://raw.githubusercontent.com/Mahiro33/Action-KernelSU/main/apks/SukiSU_v3.2.0_13457-release.apk"
+          cp ${APK_NAME} ./AnyKernel3/
 
       - name: Set suffix
         id: suffix

@@ -61,9 +61,6 @@ jobs:
 
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
-
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
         with:
           root-reserve-mb: 8192
           temp-reserve-mb: 2048

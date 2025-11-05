@@ -50,8 +50,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
+      CCACHE_NOHASHDIR: "true"
+      CCACHE_HARDLINK: "true"
+      CCACHE_MAXSIZE: 8G
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
@@ -177,6 +187,42 @@ jobs:
         run: |
           git config --global user.name "build"
           git config --global user.email "123456789@qq.com"
+
+      - name: Set Cache Environment
+        run: |
+          echo "CCACHE_DIR=$HOME/.ccache_${{ github.event.inputs.FILE }}" >> $GITHUB_ENV
+          mkdir -p "$HOME/.ccache_${{ github.event.inputs.FILE }}"
+          echo "set: $HOME/.ccache_${{ github.event.inputs.FILE }}"
+          
+      - name: Install Dependencies + APTC
+        uses: awalsh128/cache-apt-pkgs-action@latest 
+        with: 
+          packages: python3 git curl ccache libelf-dev build-essential flex bison libssl-dev libncurses-dev liblz4-tool zlib1g-dev libxml2-utils rsync unzip gawk dos2unix
+          execute_install_scripts: true
+
+      - name: Restore Ccache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-${{ runner.os }}-${{ github.ref_name }}-${{ github.event.inputs.FILE }}-${{ env.BUILD_METHOD }}-${{ github.event.inputs.FAST_BUILD == 'true' && 'alpha' || 'beta' }}-16
+
+      - name: Initialize Ccache
+        run: |
+          INIT_FLAG="${{ env.CCACHE_DIR }}/.ccache_initialized"
+          if command -v ccache >/dev/null 2>&1; then
+            if [ ! -f "$INIT_FLAG" ]; then
+              echo "初始化 ccache (${{ env.CCACHE_DIR }})..."
+              mkdir -p "${{ env.CCACHE_DIR }}"
+              ccache -M ${{ env.CCACHE_MAXSIZE }}
+              touch "$INIT_FLAG"
+              echo "✅ ccache 初始化完成"
+            else
+              echo "✅ ccache 已初始化，跳过"
+            fi
+          else
+            echo "❌ 未安装 ccache，跳过"
+          fi
+          ccache -s
 
       - name: Show selected inputs debug
         run: |

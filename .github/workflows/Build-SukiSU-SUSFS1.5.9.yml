@@ -567,7 +567,7 @@ jobs:
           done
           fi
 
-      - name: Download Matching Version of SukiSu-Ultra Apk
+      - name: Download available SukiSU-Ultra Apk
         run: |
           APK_NAME=SukiSU_v3.2.0_13457-release.apk
           curl -L --progress-bar -o ${APK_NAME} "https://raw.githubusercontent.com/Mahiro33/Action-KernelSU/main/apks/SukiSU_v3.2.0_13457-release.apk"
